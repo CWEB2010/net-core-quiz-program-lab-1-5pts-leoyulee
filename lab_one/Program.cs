@@ -8,7 +8,7 @@ namespace lab_one
     class Program
     {
         //debugging variables
-        readonly static bool debug = false;
+        readonly static bool debug = true;
 
         //Valid keys for input
         readonly static ConsoleKey[,] NYQ = //new ConsoleKey[,] // No Yes Questions
