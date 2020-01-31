@@ -17,7 +17,7 @@ namespace lab_one
             {ConsoleKey.Y, ConsoleKey.Z, ConsoleKey.D1, ConsoleKey.NumPad1}
         };
         readonly static ConsoleKey[,] MCQ = //new ConsoleKey[,]// Multiple Choice Questions
-        {
+        {//Position 0 contains the exit key(s)
             {ConsoleKey.N, ConsoleKey.X, ConsoleKey.D0, ConsoleKey.NumPad0},
             {ConsoleKey.A, ConsoleKey.J, ConsoleKey.D1, ConsoleKey.NumPad1},
             {ConsoleKey.B, ConsoleKey.K, ConsoleKey.D2, ConsoleKey.NumPad2},
@@ -113,6 +113,7 @@ namespace lab_one
                 if (showCorrect)
                 {
                     Print((UserAnswers[QuestionArrayID] == AnswerKey[QuestionArrayID]).ToString());
+                    CallForUserInput(null, "continue.");
                 }
             }
         }
@@ -125,6 +126,11 @@ namespace lab_one
                 if (debug)
                 {
                     Print("User has requested to continue to the quiz.");
+                }
+                status = AskForInput(NYQ, "Y", "enable immediate responses for whether or not your answer was correct, or N to disable this feature.");
+                if (status == 1)
+                {
+                    showCorrect = true;
                 }
             }
             else if (status == 0)
