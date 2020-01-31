@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace lab_one
 {
@@ -22,7 +20,7 @@ namespace lab_one
             {ConsoleKey.A, ConsoleKey.J, ConsoleKey.D1, ConsoleKey.NumPad1},
             {ConsoleKey.B, ConsoleKey.K, ConsoleKey.D2, ConsoleKey.NumPad2},
             {ConsoleKey.C, ConsoleKey.L, ConsoleKey.D3, ConsoleKey.NumPad3},
-            {ConsoleKey.D, ConsoleKey.P, ConsoleKey.D4, ConsoleKey.NumPad4}
+            {ConsoleKey.D, ConsoleKey.Oem1, ConsoleKey.D4, ConsoleKey.NumPad4}
         };
         readonly static String[] Questions = //new String[]
         {//Make 10 questions that ask about the .NET Core
@@ -58,6 +56,7 @@ namespace lab_one
         private static int[] UserAnswers;
         private static bool showCorrect;
         private static int correct, incorrect;
+        private static int percentCorrect;
         /* --------------------------------------------------------------------------------------------------------- */
         static void Main()
         {
@@ -67,6 +66,7 @@ namespace lab_one
         //--------------------Display Results Functions--------------------
         private static void DisplayResults()
         {
+            Console.Clear();
             if (debug)
             {
                 Print("User has finished the quiz. Displaying their results...");
@@ -74,10 +74,20 @@ namespace lab_one
             Print("Question #\tCorrect Answer\t Your Answer");
             for (int i = 0; i < Questions.GetLength(0); i++)
             {
-                Print(Questions[i] + "\t" + Answers[0, AnswerKey[i] - 1] + "\t" + Answers[0, UserAnswers[i] - 1 ]);
+                Print("Question " + (i+1) + "\t" + Answers[0, AnswerKey[i] - 1] + "\t\t" + Answers[0, UserAnswers[i] - 1 ]);
             }
-            Print("Number Correct:\t" + correct);
-            Print("Number Incorrect:\t"+ incorrect);
+            Print("--------------------------------------------------");
+            Print("Percentage Correct: " + percentCorrect + "%");
+            Print("Number Correct:" + correct);
+            Print("Number Incorrect:"+ incorrect);
+            if (percentCorrect <= 70)
+            {
+                Print("You did not pass the quiz. Study up and you'll get it next time!");
+            }
+            else
+            {
+                Print("You passed the quiz! Congratulations!");
+            }
             CallForUserInput(null, "to continue");
             Print("Would you like to take the quiz again?");
             InitiateQuiz();
@@ -101,9 +111,17 @@ namespace lab_one
             Console.Clear();
             string outputtedString;
             int questionNumber, userAnswer;
+            //State the person's progress.
             questionNumber = QuestionArrayID + 1;
+            Print("Question " + questionNumber + " out of " + Questions.Length);
+            if (showCorrect)
+            {
+                Print("Correct Answer Percentage: " + percentCorrect + "%");
+            }
+            //Create and print the question:
             outputtedString = questionNumber + ") " + Questions[QuestionArrayID];
             Print(outputtedString);
+            //List out the answers:
             for (int j = 0; j < Answers.GetLength(1); j++)
             {//Sample answer template: A) AnswerA for the above question
                 outputtedString = "\t" + Answers[0, j] + ") " + Answers[questionNumber, j];
@@ -126,13 +144,31 @@ namespace lab_one
             else
             {
                 UserAnswers[QuestionArrayID] = userAnswer;
-                if (debug)
+                bool isCorrect = UserAnswers[QuestionArrayID] == AnswerKey[QuestionArrayID];
+                if (isCorrect)
                 {
-                    Print("Answers recorded so far: " + UserAnswers.ToString());
+                    correct++;
+                }
+                else
+                {
+                    incorrect++;
+                }
+                percentCorrect = (int)Math.Round(((double)correct / questionNumber) * 100);
+                if(debug)
+                {
+                    Print("percentCorrect: " + percentCorrect.ToString() + "\tcorrect: " + correct.ToString() + "\tquestionNumber: " + questionNumber);
                 }
                 if (showCorrect)
                 {
-                    Print((UserAnswers[QuestionArrayID] == AnswerKey[QuestionArrayID]).ToString());
+                    if(isCorrect)
+                    {
+                        Print("Your answer is correct.");
+                    }
+                    else
+                    {
+                        Print("Your answer is incorrect.");
+                    }
+                    Print("Correct Answer: " + Answers[0, AnswerKey[QuestionArrayID] - 1] + "\tYour Answer: " + Answers[0, UserAnswers[QuestionArrayID] - 1]);
                     CallForUserInput(null, "continue.");
                 }
             }
@@ -144,6 +180,9 @@ namespace lab_one
             if (status == 1)
             {
                 UserAnswers = new int[AnswerKey.Length];
+                correct = 0;
+                incorrect = 0;
+                percentCorrect = 0;
                 if (debug)
                 {
                     Print("User has requested to continue to the quiz.");
@@ -229,13 +268,17 @@ namespace lab_one
             }
             return -1;
         }
-        private static ConsoleKey CallForUserInput(string Choices = "any key", string Reason = null, bool error = false)
+        private static ConsoleKey CallForUserInput(string Choices = null, string Reason = null, bool error = false)
         {
             //default prompt: "Press 'any key' to 'continue'"
             string trueReason = ".";
             if (Reason != null)
             {
                 trueReason = " to " + Reason;
+            }
+            if (Choices == null)
+            {
+                Choices = "any key";
             }
             if (error)
             {
