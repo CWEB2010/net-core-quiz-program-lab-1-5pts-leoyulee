@@ -8,7 +8,7 @@ namespace lab_one
     class Program
     {
         //debugging variables
-        readonly static bool debug = true;
+        readonly static bool debug = false;
 
         //Valid keys for input
         readonly static ConsoleKey[,] NYQ = //new ConsoleKey[,] // No Yes Questions
@@ -56,7 +56,7 @@ namespace lab_one
             2, 2, 3, 1, 4, 1, 1, 3, 4, 1
         };
         private static int[] UserAnswers;
-        private static bool showCorrect = true;
+        private static bool showCorrect;
         /* --------------------------------------------------------------------------------------------------------- */
         static void Main()
         {
