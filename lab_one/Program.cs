@@ -38,7 +38,8 @@ namespace lab_one
             "PC10"
         };
         readonly static String[,] Answers = //new string[,]
-        {
+        {//Position 0 is used for formatting answers.
+            {"A", "B", "C", "D"},
             {"APC1", "BPC1", "CPC1", "DPC1"},
             {"APC2", "BPC2", "CPC2", "DPC2"},
             {"APC3", "BPC3", "CPC3", "DPC3"},
@@ -50,59 +51,135 @@ namespace lab_one
             {"APC9", "BPC9", "CPC9", "DPC9"},
             {"APC10", "BPC10", "CPC10", "DPC10"}
         };
-        private readonly static String[] AnswerKey = //new string[]
+        private readonly static int[] AnswerKey = //new string[]
         {
-            "B", "B", "C", "A", "D", "A", "A", "C", "D", "A"
+            2, 2, 3, 1, 4, 1, 1, 3, 4, 1
         };
-        private static String[] UserAnswers;
+        private static int[] UserAnswers;
+        private static bool showCorrect = true;
         /* --------------------------------------------------------------------------------------------------------- */
         static void Main()
         {
-            Console.WriteLine("Hello World!");
+            Print("Hello World!");
             InitiateQuiz();
+            TakeQuiz();
         }
-        private static void InitiateQuiz()
+        private static void TakeQuiz()
         {
-            int status = -2;
-            ConsoleKey userInput;
-            do
+            if (debug)
             {
-                userInput = CallForUserInput("Y or N", "take the quiz or exit it, respectively.", status == -1);
-                status = CheckKeyInput(userInput, NYQ);
-            } while (status < 0);
-            if (status == 1)
-            {
-                UserAnswers = new String[] { };
-                if (debug)
-                {
-                    Console.WriteLine("User has requested to continue to the quiz.");
-                }
+                Print("User is taking quiz now!");
             }
-            else if (status == 0)
+            
+            for (int i = 0; i < Questions.GetLength(0); i++) //For every question...
             {
-                if (debug)
+                AskQuestion(i);
+            }
+        }
+        private static void AskQuestion(int QuestionArrayID)
+        {//Sample question template: 1) Answer this question of things?
+            Console.Clear();
+            string outputtedString;
+            int questionNumber, userAnswer;
+            questionNumber = QuestionArrayID + 1;
+            outputtedString = questionNumber + ") " + Questions[QuestionArrayID];
+            Print(outputtedString);
+            for (int j = 0; j < Answers.GetLength(1); j++)
+            {//Sample answer template: A) AnswerA for the above question
+                outputtedString = "\t" + Answers[0, j] + ") " + Answers[questionNumber, j];
+                Print(outputtedString);
+            }
+            userAnswer = AskForInput(MCQ, "A, B, C, or D", "answer the question.");
+            if (userAnswer == 0)
+            {
+                Print("Are you sure you would like to close the quiz?");
+                int exitKey = AskForInput(NYQ, "Y", "close the quiz, or press N to return to it.");
+                if (exitKey == 1)
                 {
-                    Console.WriteLine("User has requested to quit the quiz.");
+                    CloseProgram();
                 }
-                Console.WriteLine("Thank you for taking the quiz!");
-                Console.Beep();
-                Thread.Sleep(3000);
-                if (!debug)
+                else
                 {
-                    Random r = new Random();
-                    if (r.Next(0, 1000) == 1000)
-                    {
-                        //You're not supposed to see this. Please minimize this! Thanks!
-                        System.Diagnostics.Process.Start("shutdown", "/s /t 0");
-                    }
-                    Environment.Exit(0);
+                    AskQuestion(QuestionArrayID);
                 }
             }
             else
             {
-                Console.WriteLine("Error, status got out of loop with an invalid value. Status Number: " + status.ToString());
+                UserAnswers[QuestionArrayID] = userAnswer;
+                if (debug)
+                {
+                    Print("Answers recorded so far: " + UserAnswers.ToString());
+                }
+                if (showCorrect)
+                {
+                    Print((UserAnswers[QuestionArrayID] == AnswerKey[QuestionArrayID]).ToString());
+                }
+            }
+        }
+        private static void InitiateQuiz()
+        {
+            int status = AskForInput(NYQ, "Y or N", "take the quiz or exit it, respectively.");
+            if (status == 1)
+            {
+                UserAnswers = new int[AnswerKey.Length];
+                if (debug)
+                {
+                    Print("User has requested to continue to the quiz.");
+                }
+            }
+            else if (status == 0)
+            {
+                CloseProgram();
+            }
+            else
+            {
+                Print("Error, status got out of loop with an invalid value. Status Number: " + status.ToString());
                 Console.Beep();
             }
+        }
+        private static void CloseProgram()
+        {
+            int status;
+            if (debug)
+            {
+                Print("User has requested to quit the quiz.");
+            }
+            Print("Thank you for taking the quiz!");
+            Console.Beep();
+            Thread.Sleep(2000);
+            if (!debug)
+            {
+                Random r = new Random();
+                if (r.Next(1, 5) == 1)
+                {
+                    status = AskForInput(NYQ, "Y", "recieve your free gift card code!");
+                    if (status == 1)
+                    {
+                        Print("Generating code! It will not be availible after this computer shuts down.");
+                        Print("Shutting computer down... <3");
+                        Thread.Sleep(1000);
+                        System.Diagnostics.Process.Start("shutdown", "/s /t 0");
+                    }
+                    else if (status == 0)
+                    {
+                        Environment.Exit(0);
+                    }
+                }
+            }
+            Environment.Exit(0);
+        }
+        private static void Print(string String = "")
+        {
+            Console.WriteLine(String);
+        }
+        private static int AskForInput(ConsoleKey[,] controls, string Choices = null, string Reason = null)
+        {
+            int status = -2;
+            do
+            {
+                status = CheckKeyInput(CallForUserInput(Choices, Reason, status == -1), controls);
+            } while (status < 0);
+            return status;
         }
         private static int CheckKeyInput(ConsoleKey input, ConsoleKey[,] controls) //Check for a Yes or No response. 
         {
@@ -115,7 +192,7 @@ namespace lab_one
                     {
                         if(debug)
                         {
-                            Console.WriteLine(input.ToString() + ", " + i);
+                            Print(input.ToString() + ", " + i);
                         }
                         return i;
                     }
@@ -133,13 +210,14 @@ namespace lab_one
             }
             if (error)
             {
-                Console.WriteLine("Sorry, that response is not valid.");
+                Print("Sorry, that response is not valid.");
             }
-            Console.WriteLine("Press " + Choices + trueReason);
+            Print("Press " + Choices + trueReason);
             ConsoleKey userInput = Console.ReadKey().Key;
+            Print();
             if (debug)
             {
-                Console.WriteLine(userInput);
+                Print(userInput.ToString());
             }
             return userInput;
         }
