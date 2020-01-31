@@ -57,13 +57,32 @@ namespace lab_one
         };
         private static int[] UserAnswers;
         private static bool showCorrect;
+        private static int correct, incorrect;
         /* --------------------------------------------------------------------------------------------------------- */
         static void Main()
         {
-            Print("Hello World!");
-            InitiateQuiz();
-            TakeQuiz();
+            Print("Welcome to Leo's Quiz!");
+            InitiateQuiz(); //Start up function. This will call TakeTest() when appropriate.
         }
+        //--------------------Display Results Functions--------------------
+        private static void DisplayResults()
+        {
+            if (debug)
+            {
+                Print("User has finished the quiz. Displaying their results...");
+            }
+            Print("Question #\tCorrect Answer\t Your Answer");
+            for (int i = 0; i < Questions.GetLength(0); i++)
+            {
+                Print(Questions[i] + "\t" + Answers[0, AnswerKey[i] - 1] + "\t" + Answers[0, UserAnswers[i] - 1 ]);
+            }
+            Print("Number Correct:\t" + correct);
+            Print("Number Incorrect:\t"+ incorrect);
+            CallForUserInput(null, "to continue");
+            Print("Would you like to take the quiz again?");
+            InitiateQuiz();
+        }
+        //--------------------Take Quiz Functions--------------------
         private static void TakeQuiz()
         {
             if (debug)
@@ -75,6 +94,7 @@ namespace lab_one
             {
                 AskQuestion(i);
             }
+            DisplayResults();
         }
         private static void AskQuestion(int QuestionArrayID)
         {//Sample question template: 1) Answer this question of things?
@@ -117,6 +137,7 @@ namespace lab_one
                 }
             }
         }
+        //--------------------Initiate Quiz Functions--------------------
         private static void InitiateQuiz()
         {
             int status = AskForInput(NYQ, "Y or N", "take the quiz or exit it, respectively.");
@@ -132,6 +153,7 @@ namespace lab_one
                 {
                     showCorrect = true;
                 }
+                TakeQuiz();
             }
             else if (status == 0)
             {
@@ -143,6 +165,7 @@ namespace lab_one
                 Console.Beep();
             }
         }
+        //--------------------Universal Functions--------------------
         private static void CloseProgram()
         {
             int status;
