@@ -1,34 +1,89 @@
-# .NET Core Quiz Program (Lab 1 - 5pts.)
+# .NET Core Quiz Program (Lab 1)
 
-You are going to build a quiz application that requires you to generate 10 questions along with 4 option choices for each question.  You will do some research on .NET Core and decide upon 10 questions that will assess the quiz taker's knowledge on .NET Core 
+This is a quiz application that allows the owner of the quiz to have any number of questions and answers in multiple choice form. By default, it is configured to have questions on .NET Core with four answers.
 
-## Instructions
+## User Documentation
+### Controls
+This quiz comes with two sets of controls:
+  - Controls for Yes/No Questions
+  - Controls for Multiple Choice Questions
 
-Listed below is the correct answer key for your quiz.
+Generally, the buttons you need to press will be explicitly stated after a question. However, there are programmed controls of which perform the same function under the context the set of controls being used, which is shown below.
 
-```bash
- 1) B 	| 2) B 	| 3) C 	| 4) A 	|  5) D 	
- ------	|------	|------	|------	|-------	
- 6) A 	| 7) A 	| 8) C 	| 9) D 	| 10) A 	
-```
-Your program should store these correct answers in an array.  (Store each question’s correct answer in an element of a String array.)  The program will iterate through each question and allow the quiz taker to enter a answer for each question, which should be stored in another array. After the student’s answers have been entered, the program should display a message indicating whether the student passed or failed the exam.  (A student must correctly answer 7 of the 10 questions to pass the quiz.)  It should then display the total number of correctly answered questions, the total number of incorrectly answered questions, and a list showing the question numbers of the incorrectly answered questions.
+#### Controls for Yes/No Questions
+No:
+- N
+- X
+- Keyboard 0
+- Numpad 0
 
+Yes:
+- Y
+- Z
+- Keyboard 1
+- Numpad 1
 
+#### Controls for Multiple Choice Questions
+Exit:
+- N
+- X
+- Keyboard 0
+- Numpad 0
 
-## Requirements
+Option 1 (A)
+- A
+- J
+- Keyboard 1
+- Numpad 1
 
-- Application should be .NET core console app
+Option 2 (B)
+- B
+- K
+- Keyboard 2
+- Numpad 2
 
-- Version control implemented into application with a minimum of 3 commits
-- Make sure master branch is able to successfully compile.
-- ReadMe file is included with project that gives instructions on what the project is and what technologies were used in creating the project.
+Option 3 (C)
+- C
+- L
+- Keyboard 3
+- Numpad 3
 
-- Try and utilizing a variety of properties and methods from the Console Class
-- Utilize the placeholder for formatting and outputting string text.
-- Allow the end-user to continuously enter exams until a sentinel value is entered.
+Option 4 (D)
+- D
+- ";" Key
+- Keyboard 4
+- Numpad 4
 
-## Resources
-[.NET Core Guide](https://docs.microsoft.com/en-us/dotnet/core/)
+### Interface
 
-[Makeareadme.com](https://www.makeareadme.com/)
+The quiz comes with a small amount of customization. At the beginning of a quiz session, the user will be prompted asking if they would want to take the quiz, followed by a prompt asking for whether or not they would like the quiz to display if their latest answer was correct, along side a percentage value of their current score.
 
+### Usage
+
+The primary usage of this quiz is to review some of the .NET Core's functionality and history. A secondary use would to use this application as a template for other quizzes by modifying the variables, which is explained in the next part of the documentation.
+
+This program runs similarly to other quiz programs, with the exception of the quiz automatically submitting the user's answer once one of the hotkeys are pressed. If there is enough demand, this can be changed.
+
+## Owner Documentation
+
+This section is here to describe what changes a future owner can do to customize this quiz for their own use. If you're only changing a few variables, please credit the creation of the program to Leo Lee, the original creator.
+
+### Variables
+
+All "global" variables that is critical for the functionality of this application are placed in the beginning of the code. Here, you can change the keys that users press to answer questions, alongside the questions, multiple choice answers and the answer key.	
+### Debugging
+
+By default, the debug boolean is set to false. However, this can be changed by either editing the code or pressing "Delete" when the application is running. When this is enabled, the program will print out when it progresses to a new segment of the quiz and all of the keys that are pressed, alongside other values that are used within the code. 
+
+Having the debug boolean to equal "true" will disable the Easter Egg.
+
+### Easter Egg
+
+This quiz comes with an Easter Egg that is on by default, and cannot turn off unless "debug" mode is on.
+
+The Easter Egg has a 1 in 5 chance of occurring when the user closes the program with a sentinel key. When it does enable, the application will prompt a message. If that message is followed by a "Yes", **it will shut down the user's computer.**
+
+Thus, be vigilant.
+
+## Developer Documentation
+**WIP**

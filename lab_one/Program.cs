@@ -5,16 +5,13 @@ namespace lab_one
 {
     class Program
     {
-        //debugging variables
-        readonly static bool debug = false;
-
         //Valid keys for input
-        readonly static ConsoleKey[,] NYQ = //new ConsoleKey[,] // No Yes Questions
+        readonly static ConsoleKey[,] NYQ =// No Yes Questions
         {
             {ConsoleKey.N, ConsoleKey.X, ConsoleKey.D0, ConsoleKey.NumPad0}, 
             {ConsoleKey.Y, ConsoleKey.Z, ConsoleKey.D1, ConsoleKey.NumPad1}
         };
-        readonly static ConsoleKey[,] MCQ = //new ConsoleKey[,]// Multiple Choice Questions
+        readonly static ConsoleKey[,] MCQ =// Multiple Choice Questions
         {//Position 0 contains the exit key(s)
             {ConsoleKey.N, ConsoleKey.X, ConsoleKey.D0, ConsoleKey.NumPad0},
             {ConsoleKey.A, ConsoleKey.J, ConsoleKey.D1, ConsoleKey.NumPad1},
@@ -22,7 +19,7 @@ namespace lab_one
             {ConsoleKey.C, ConsoleKey.L, ConsoleKey.D3, ConsoleKey.NumPad3},
             {ConsoleKey.D, ConsoleKey.Oem1, ConsoleKey.D4, ConsoleKey.NumPad4}
         };
-        readonly static String[] Questions = //new String[]
+        readonly static String[] Questions =
         {//Make 10 questions that ask about the .NET Core
             "When was .NET made?",
             "PC2",
@@ -35,7 +32,7 @@ namespace lab_one
             "PC9",
             "PC10"
         };
-        readonly static String[,] Answers = //new string[,]
+        readonly static String[,] Answers =
         {//Position 0 is used for formatting answers.
             {"A", "B", "C", "D"},
             {"APC1", "BPC1", "CPC1", "DPC1"},
@@ -49,10 +46,12 @@ namespace lab_one
             {"APC9", "BPC9", "CPC9", "DPC9"},
             {"APC10", "BPC10", "CPC10", "DPC10"}
         };
-        private readonly static int[] AnswerKey = //new string[]
+        private readonly static int[] AnswerKey =
         {
             2, 2, 3, 1, 4, 1, 1, 3, 4, 1
         };
+        //Initial variables
+        private static bool debug = false;
         private static int[] UserAnswers;
         private static bool showCorrect;
         private static int correct, incorrect;
@@ -251,7 +250,12 @@ namespace lab_one
         }
         private static int CheckKeyInput(ConsoleKey input, ConsoleKey[,] controls) //Check for a Yes or No response. 
         {
-            for(int i = 0; i < controls.GetLength(0); i++)
+            if (input == ConsoleKey.Delete)
+            {
+                debug = !debug;
+                Print("Debug mode: " + debug);
+            }
+            for (int i = 0; i < controls.GetLength(0); i++)
             {
                 for(int j = 0; j < controls.GetLength(1); j++)
                 {
