@@ -21,30 +21,30 @@ namespace lab_one
         };
         readonly static String[] Questions =
         {//Make 10 questions that ask about the .NET Core
-            "When was .NET made?",
-            "PC2",
-            "PC3",
-            "PC4",
-            "PC5",
-            "PC6",
-            "PC7",
-            "PC8",
-            "PC9",
-            "PC10"
+            "What's the latest version of .NET Core (as of January 31, 2020)?",
+            "Which one of these DataTypes DON'T come with just System in .NET Core?",
+            "What's one of the differences between .NET Core and Framework?",
+            "When was the first release of .NET Core?",
+            "What operating system does .NET Core work on?",
+            "When should you use .NET Core?",
+            "Where is .NET Core usually used?",
+            "What is one of the few languages used to write applications and libraries for .NET Core?",
+            "Why was .NET Core created?",
+            "What's one of the differences between .NET Core and Mono?"
         };
         readonly static String[,] Answers =
         {//Position 0 is used for formatting answers.
             {"A", "B", "C", "D"},
-            {"APC1", "BPC1", "CPC1", "DPC1"},
-            {"APC2", "BPC2", "CPC2", "DPC2"},
-            {"APC3", "BPC3", "CPC3", "DPC3"},
-            {"APC4", "BPC4", "CPC4", "DPC4"},
-            {"APC5", "BPC5", "CPC5", "DPC5"},
-            {"APC6", "BPC6", "CPC6", "DPC6"},
-            {"APC7", "BPC7", "CPC7", "DPC7"},
-            {"APC8", "BPC8", "CPC8", "DPC8"},
-            {"APC9", "BPC9", "CPC9", "DPC9"},
-            {"APC10", "BPC10", "CPC10", "DPC10"}
+            {"4.1", "3.1", "2.3", "1.0"},
+            {"Arrays", "Lists", "Decimal", "ConsoleKey"},
+            {".NET Core is open source while .NET Framework is not", ".NET Core is the most latest version of .NET, thus can use everything from .NET Framework", ".NET Core runs in Docker Containers, whilst .NET Framework doesn't", ".NET Core and Framework are the same thing"},
+            {"June 27, 2016", "November 12, 2014", "October 22, 2009", "13 February, 2002"},
+            {"Windows", "MacOS", "Linux", "All of the above"},
+            {"To have the best performance", "To interact closely with Windows", "To create Windows Forms and WPF Applications", "All of the above"},
+            {"Servers Applications", "Desktop Applications", "Website Structure and Formatting", "None of the above"},
+            {"Object C", "C++", "C#", "Cb"},
+            {"To compete with Java", "To attract more people into using Windows", "To streamline mobile applications", "None of the above"},
+            {"Mono focuses on mobile platforms while .NET Core focuses on clouds and desktops", "Mono only supports Windows while .NET Core is universal", "Mono is the newer version of .NET Core", "None of the above"}
         };
         private readonly static int[] AnswerKey =
         {
